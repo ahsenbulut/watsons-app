@@ -1,13 +1,15 @@
 <template>
   <div class="carousel-container">
     <div class="carousel" :style="{ transform: `translateX(-${currentIndex * 100}%)` }">
-      <!-- Resimleri döngü ile göster -->
+      <!-- Her resim için link -->
       <div
         v-for="(image, index) in images"
         :key="index"
         class="carousel-slide"
       >
-        <img :src="image" alt="Carousel Image" />
+        <router-link :to="`/carousel/${index + 1}`">
+          <img :src="image" alt="Carousel Image" />
+        </router-link>
       </div>
     </div>
     <!-- Navigation Buttons -->
@@ -22,15 +24,14 @@ export default {
   data() {
     return {
       images: [
-        "https://www.watsons.com.tr/medias/sys_master/images/h3f/h21/11718974832670/WatsonsaOzelMarkalar/WatsonsaOzelMarkalar.png", // İlk görsel
-        "https://www.watsons.com.tr/medias/sys_master/images/h0d/h2b/11718974570526/Pastel-app/Pastel-app.png", // İkinci görsel
-        "https://www.watsons.com.tr/medias/sys_master/images/he1/h63/11721966256158/YilbasiK_2-31Aralik_/YilbasiK-2-31Aralik-.png", // Üçüncü görsel
-        "https://www.watsons.com.tr/medias/sys_master/images/h13/h5a/11721966518302/YilbasiK_2Aralik_1Ocak_CoverB_2-1300-500/YilbasiK-2Aralik-1Ocak-CoverB-2-1300-500.png", // Dördüncü görsel
-        "https://www.watsons.com.tr/medias/sys_master/images/hea/h2d/11718975094814/WatsonsaOzelM_GobeBoost_2-8Aralik_CoverB-1300-500/WatsonsaOzelM-GobeBoost-2-8Aralik-CoverB-1300-500.png", // Beşinci görsel
-        "https://www.watsons.com.tr/medias/sys_master/images/hb8/h37/11718975356958/surdurulabilir-yasam-12/surdurulabilir-yasam-12.png", // Altıncı görsel
+        "https://www.watsons.com.tr/medias/sys_master/images/h3f/h21/11718974832670/WatsonsaOzelMarkalar/WatsonsaOzelMarkalar.png",
+        "https://www.watsons.com.tr/medias/sys_master/images/h0d/h2b/11718974570526/Pastel-app/Pastel-app.png",
+        "https://www.watsons.com.tr/medias/sys_master/images/he1/h63/11721966256158/YilbasiK_2-31Aralik_/YilbasiK-2-31Aralik-.png",
+        "https://www.watsons.com.tr/medias/sys_master/images/h13/h5a/11721966518302/YilbasiK_2Aralik_1Ocak_CoverB_2-1300-500/YilbasiK-2Aralik-1Ocak-CoverB-2-1300-500.png",
+        "https://www.watsons.com.tr/medias/sys_master/images/hea/h2d/11718975094814/WatsonsaOzelM_GobeBoost_2-8Aralik_CoverB-1300-500/WatsonsaOzelM-GobeBoost-2-8Aralik-CoverB-1300-500.png",
+        "https://www.watsons.com.tr/medias/sys_master/images/hb8/h37/11718975356958/surdurulabilir-yasam-12/surdurulabilir-yasam-12.png",
       ],
       currentIndex: 0, // Şu anda gösterilen resim
-      intervalId: null, // Otomatik geçiş için interval ID
     };
   },
   methods: {
@@ -40,48 +41,33 @@ export default {
     prevSlide() {
       this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
     },
-    startAutoSlide() {
-      this.intervalId = setInterval(() => {
-        this.nextSlide();
-      }, 5000); // 5 saniyede bir geçiş
-    },
-    stopAutoSlide() {
-      clearInterval(this.intervalId);
-    },
-  },
-  mounted() {
-    this.startAutoSlide();
-  },
-  beforeUnmount() {
-    this.stopAutoSlide(); // Bileşen kaldırıldığında interval temizlenir
   },
 };
 </script>
+
 
 <style scoped>
 .carousel-container {
   position: relative;
   width: 100%;
-  max-width: 1475px; /* Carousel genişliği */
-  margin: 30px auto; /* Ortalamak için */
+  max-width: 1475px;
+  margin: 30px auto;
   overflow: hidden;
-  /*border-radius: 10px; /* Görsellerin kenarlarını yuvarla */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Hafif gölge */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .carousel {
   display: flex;
-  transition: transform 0.5s ease-in-out; /* Geçiş animasyonu */
+  transition: transform 0.5s ease-in-out;
 }
 
 .carousel-slide {
-  min-width: 100%; /* Her slayt tam genişlikte */
+  min-width: 100%;
 }
 
 .carousel-slide img {
   width: 100%;
   height: auto;
-  display: block;
 }
 
 .carousel-nav {
@@ -99,7 +85,7 @@ export default {
   justify-content: center;
   cursor: pointer;
   z-index: 10;
-  font-size: 20px; /* Ok işaretleri boyutu */
+  font-size: 20px;
 }
 
 .carousel-nav.prev {
@@ -111,6 +97,6 @@ export default {
 }
 
 .carousel-nav:hover {
-  background-color: rgba(0, 0, 0, 0.8); /* Hover rengi */
+  background-color: rgba(0, 0, 0, 0.8);
 }
 </style>
