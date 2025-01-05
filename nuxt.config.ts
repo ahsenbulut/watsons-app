@@ -1,6 +1,7 @@
 export default defineNuxtConfig({
+  modules: ["@pinia/nuxt"],
   compatibilityDate: '2024-11-01',
-  devtools: { enabled: true },
+  devtools: { enabled: false },
   css: [
     "@fortawesome/fontawesome-free/css/all.min.css", // Font Awesome CSS
     "bootstrap/dist/css/bootstrap.min.css", // Bootstrap CSS
@@ -21,5 +22,12 @@ export default defineNuxtConfig({
   },
   plugins: [
     "~/plugins/bootstrap.client.ts", // Bootstrap JS için bir plugin ekledik
+    "~/plugins/firebase.ts",
   ],
+
+  typescript: {
+    strict: true,
+},
+pages: true,
+
 });
