@@ -5,6 +5,7 @@ import type { Firestore } from "firebase/firestore";
 // Firebase yapılandırması
 const firebaseConfig = {
 
+
 };
 
 // Firebase ve Firestore'u başlat

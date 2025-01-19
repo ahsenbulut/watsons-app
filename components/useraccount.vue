@@ -1,7 +1,7 @@
 <template>
-  <div class="user-account-container" @click="toggleDropdown">
+  <div class="user-account-container">
     <!-- Kullanıcı Hesap İkonu -->
-    <div class="user-account">
+    <div class="user-account" @click="toggleDropdown">
       <i class="fas fa-user-circle"></i>
       <span v-if="authStore.isAuthenticated">Merhaba, {{ authStore.displayName || "Kullanıcı" }}</span>
       <span v-else>Merhaba, Hesabım</span>
@@ -16,7 +16,7 @@
       <button v-if="authStore.isAuthenticated" @click="signOut" class="dropdown-button primary">
         Çıkış Yap
       </button>
-      <button class="dropdown-button">Hesabım</button>
+      <button class="dropdown-button" @click="goToAccountPage">Hesabım</button>
       <button class="dropdown-button">Siparişlerim</button>
       <hr />
       <button v-if="!authStore.isAuthenticated" @click="openSignUp" class="dropdown-button secondary">
@@ -35,9 +35,11 @@ import { ref } from "vue";
 import { useAuthStore } from "~/stores/auth"; // Auth Store
 import SignInPopup from "~/components/signinpopup.vue";
 import SignUpPopup from "~/components/SignUpPopup.vue";
+import { useRouter } from "vue-router"; // Router
 
 // Auth Store'u bağlayarak kullanıcı bilgisine ulaş
 const authStore = useAuthStore(); // Pinia'dan auth store'a erişim
+const router = useRouter(); // Router instance
 
 // Dropdown ve Modal görünürlük kontrolü
 const showDropdown = ref(false);
@@ -86,6 +88,15 @@ const closeDropdownOnOutsideClick = () => {
 if (process.client) {
   window.addEventListener("click", closeDropdownOnOutsideClick);
 }
+
+// Hesabım sayfasına yönlendirme veya SignIn açma
+const goToAccountPage = () => {
+  if (authStore.isAuthenticated) {
+    router.push("/account"); // Oturum açılmışsa Hesap sayfasına yönlendir
+  } else {
+    openSignIn(); // Oturum açılmamışsa SignIn popup'ı aç
+  }
+};
 </script>
 
 
